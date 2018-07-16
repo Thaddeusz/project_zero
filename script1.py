@@ -17,8 +17,6 @@ from xvfbwrapper import Xvfb
 import random
 
 
-
-
 with open("/root/db.csv", "r") as f:
         cnt = f.read()
 
@@ -79,10 +77,25 @@ while j <= cnt.count(','):
                 file.write("\t" + words[k] + "\t" + time.strftime("%Y/%d/%d") + "\n")
                 file.close()
                 k += 2
-                time.sleep(random.randint(60,500))
+                time.sleep(random.randint(5,60))
                 #time.sleep(2)
                 driver.close()
 vdisplay.stop()
                 # annyiadik trd[X] amennyi az első szám +1
                 # 200 forintnál td[3] 500 forintnál td[6]
                 # html/body/div[8]/div/div[2]/div/table[2]/tbody/tr[3]/td[3]
+import smtplib
+import os
+import conf as cfg
+
+server = smtplib.SMTP('smtp.gmail.com',587)
+server.starttls()
+server.login(cfg.mail_from,cfg.mail_passwd)
+
+os.system("tail -n 33 /root/asd.txt > /root/mail.txt")
+
+with open("/root/mail.txt", "r") as f:
+    msg = f.read().replace("Aktuális egyenlegem: ","")
+
+server.sendmail(cfg.mail_from,cfg.mail_to,msg.encode("utf-8"))
+server.quit()
