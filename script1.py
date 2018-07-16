@@ -79,8 +79,8 @@ while j <= cnt.count(','):
                 file.write("\t" + words[k] + "\t" + time.strftime("%Y/%d/%d") + "\n")
                 file.close()
                 k += 2
-                #time.sleep(random.randint(60,500))
-                time.sleep(2)
+                time.sleep(random.randint(60,500))
+                #time.sleep(2)
                 driver.close()
 vdisplay.stop()
                 # annyiadik trd[X] amennyi az első szám +1
