@@ -97,5 +97,6 @@ os.system("tail -n 33 /root/asd.txt > /root/mail.txt")
 with open("/root/mail.txt", "r") as f:
     msg = f.read().replace("Aktuális egyenlegem: ","")
 
-server.sendmail(cfg.mail_from,cfg.mail_to,msg.encode("utf-8"))
+server.sendmail(cfg.mail_from,cfg.mail_to1,msg.encode("utf-8"))
+server.sendmail(cfg.mail_from,cfg.mail_to2,msg.encode("utf-8"))
 server.quit()
