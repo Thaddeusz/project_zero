@@ -2,9 +2,7 @@
 
 # Objectives:
 # change IP-s between sessions
-# write out the first time to expire 
-# send mail after each run
-# another thing to do
+# write out the first time to expire
 
 #from pathlib import _Accessor
 
@@ -32,7 +30,7 @@ file.close()
 
 j = 0
 k = 0
-vdisplay = Xvfb(width=1650, height=1080, colordepth=16) # nyit egy headless, vagyis nem GUI alapú meghatározott méretű böngészőt
+vdisplay = Xvfb(width=1650, height=1080, colordepth=16) # opens a headless (non-GUI) session in Firefox
 vdisplay.start()
 
 while j <= cnt.count(','):
@@ -41,32 +39,31 @@ while j <= cnt.count(','):
                 driver.get("http://bonuszbrigad.hu/bonuszkerek")
                 time.sleep(3)
                 try:
-                        driver.find_element_by_css_selector('.exponea-close').click()  # ha van, akkor a felugró reklámablak X gombjára kattint
+                        driver.find_element_by_css_selector('.exponea-close').click()  # Clicks on the popup's close button
                 except NoSuchElementException:
                         pass
                 time.sleep(1)
-                driver.find_element_by_css_selector("a.buttonLogin.buttonGrey1").click()  # bejelentkezés gomb megnyomása
+                driver.find_element_by_css_selector("a.buttonLogin.buttonGrey1").click()  # Clicks on Login button
                 time.sleep(1)
-                driver.find_element_by_xpath('//*[@id="loginPopupUsernameInput"]').send_keys(words[j])  # felhasználónév berakása
+                driver.find_element_by_xpath('//*[@id="loginPopupUsernameInput"]').send_keys(words[j])  # Inserts the username
                 time.sleep(1)
                 j += 1
-                driver.find_element_by_xpath('//*[@id="loginPopupPasswordInput"]').send_keys(words[j])  # words jelszó berakása
+                driver.find_element_by_xpath('//*[@id="loginPopupPasswordInput"]').send_keys(words[j])  # Inserts the password
                 j += 1
                 time.sleep(1)
-                driver.find_element_by_css_selector('a.buttonGreen1.loginPopupLoginButton').click()  # bejelentkezés gomb megnyomása
-                time.sleep(10)
-                driver.execute_script('closeLotteryPopup()')  # már pörgettél ablak bezárása
+                driver.find_element_by_css_selector('a.buttonGreen1.loginPopupLoginButton').click()  # Clicks on Login button
+                driver.execute_script('closeLotteryPopup()')  # Clicks on the "már pörgettél" close button
                 time.sleep(1)
-                driver.execute_script('popupHand.hidePopup()')  # hívd meg a barátaidat meghívása
+                driver.execute_script('popupHand.hidePopup()')  # Clicks on the "hívd meg a barátaid" close button
                 time.sleep(1)
-                driver.execute_script('javascript: start(1)')  # pörgetés indítás
+                driver.execute_script('javascript: start(1)')  # Clicks on the "pörgetés" button
                 time.sleep(8)
-                driver.execute_script('closeLotteryPopup()')  # újra pörgethetsz ablak bezárása
-                driver.execute_script('javascript: start(1)')  # pörgetés indítás
+                driver.execute_script('closeLotteryPopup()')  # "Clciks on the "pörgess újra" button
+                driver.execute_script('javascript: start(1)')  # Clicks on the "pörgetés" button
                 time.sleep(2)
-                driver.get("http://bonuszbrigad.hu/egyenlegem")  # egyenlegem oldal megnyitás
+                driver.get("http://bonuszbrigad.hu/egyenlegem")  # Opens the "egyenlegem" page
                 time.sleep(2)
-                text = driver.find_element_by_css_selector('.my_credits').text  # kreditjeim értékeinek beírása egy fileba
+                text = driver.find_element_by_css_selector('.my_credits').text  # Writes the contents of the "egyenlegem" page into a file
                 # l = int(text[21])
                 # l =+ 1
                 # print(l)
