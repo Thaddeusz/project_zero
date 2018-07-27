@@ -30,8 +30,8 @@ file.close()
 
 j = 0
 k = 0
-vdisplay = Xvfb(width=1650, height=1080, colordepth=16) # opens a headless (non-GUI) session in Firefox
-vdisplay.start()
+#vdisplay = Xvfb(width=1650, height=1080, colordepth=16) # opens a headless (non-GUI) session in Firefox
+#vdisplay.start()
 
 while j <= cnt.count(','):
         #with Xvfb() as xvfb:
@@ -52,13 +52,15 @@ while j <= cnt.count(','):
                 j += 1
                 time.sleep(1)
                 driver.find_element_by_css_selector('a.buttonGreen1.loginPopupLoginButton').click()  # Clicks on Login button
-                driver.execute_script('closeLotteryPopup()')  # Clicks on the "már pörgettél" close button
-                time.sleep(1)
-                driver.execute_script('popupHand.hidePopup()')  # Clicks on the "hívd meg a barátaid" close button
-                time.sleep(1)
+                time.sleep(7)
+                driver.execute_script('popupHand.hidePopup()')  # Clicks on the "már pörgettél" close button
+                time.sleep(7)
+                driver.execute_script('closeLotteryPopup()')  # Clicks on the "hívd meg a barátaid" close button
+                time.sleep(7)
                 driver.execute_script('javascript: start(1)')  # Clicks on the "pörgetés" button
                 time.sleep(8)
-                driver.execute_script('closeLotteryPopup()')  # "Clciks on the "pörgess újra" button
+                driver.execute_script('closeLotteryPopup()')  # "Clicks on the "pörgess újra" button
+                time.sleep(2)
                 driver.execute_script('javascript: start(1)')  # Clicks on the "pörgetés" button
                 time.sleep(2)
                 driver.get("http://bonuszbrigad.hu/egyenlegem")  # Opens the "egyenlegem" page
@@ -77,7 +79,7 @@ while j <= cnt.count(','):
                 time.sleep(random.randint(5,60))
                 #time.sleep(2)
                 driver.close()
-vdisplay.stop()
+#vdisplay.stop()
                 # annyiadik trd[X] amennyi az első szám +1
                 # 200 forintnál td[3] 500 forintnál td[6]
                 # html/body/div[8]/div/div[2]/div/table[2]/tbody/tr[3]/td[3]
