@@ -7,6 +7,7 @@
 #from pathlib import _Accessor
 
 from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import *
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
@@ -30,8 +31,8 @@ file.close()
 
 j = 0
 k = 0
-#vdisplay = Xvfb(width=1650, height=1080, colordepth=16) # opens a headless (non-GUI) session in Firefox
-#vdisplay.start()
+vdisplay = Xvfb(width=1650, height=1080, colordepth=16) # opens a headless (non-GUI) session in Firefox
+vdisplay.start()
 
 while j <= cnt.count(','):
         #with Xvfb() as xvfb:
@@ -43,29 +44,38 @@ while j <= cnt.count(','):
                 except NoSuchElementException:
                         pass
                 time.sleep(1)
-                driver.find_element_by_css_selector("a.buttonLogin.buttonGrey1").click()  # Clicks on Login button
+                
+                driver.execute_script('showLoginScreen()') # Clicks on Login button
                 time.sleep(1)
-                driver.find_element_by_xpath('//*[@id="loginPopupUsernameInput"]').send_keys(words[j])  # Inserts the username
+                driver.find_element_by_xpath('//*[@id="loginPopupUserName"]').send_keys(words[j])  # Inserts the username
                 time.sleep(1)
                 j += 1
-                driver.find_element_by_xpath('//*[@id="loginPopupPasswordInput"]').send_keys(words[j])  # Inserts the password
+                driver.find_element_by_xpath('//*[@id="loginPopupPassword"]').send_keys(words[j])  # Inserts the password
                 j += 1
                 time.sleep(1)
-                driver.find_element_by_css_selector('a.buttonGreen1.loginPopupLoginButton').click()  # Clicks on Login button
+
+                driver.execute_script('submitForm(\'login_popup_form\')')# Clicks on Login button
                 time.sleep(7)
-                driver.execute_script('popupHand.hidePopup()')  # Clicks on the "már pörgettél" close button
-                time.sleep(7)
-                driver.execute_script('closeLotteryPopup()')  # Clicks on the "hívd meg a barátaid" close button
-                time.sleep(7)
-                driver.execute_script('javascript: start(1)')  # Clicks on the "pörgetés" button
-                time.sleep(8)
-                driver.execute_script('closeLotteryPopup()')  # "Clicks on the "pörgess újra" button
+
+                try:
+                        driver.execute_script('lotteryWheel.spinTheWheel()')  # "Clicks on the "pörgess újra" button
+                except Exception:
+                        pass
+                time.sleep(11)
+                try:
+                        driver.execute_script('closeLotteryPopup()')  # "Clicks on the "pörgess újra" button
+                except Exception:
+                        pass
                 time.sleep(2)
-                driver.execute_script('javascript: start(1)')  # Clicks on the "pörgetés" button
+                try:
+                        driver.execute_script('lotteryWheel.spinTheWheel()')  # "Clicks on the "pörgess újra" button
+                except Exception:
+                        pass
+
                 time.sleep(2)
-                driver.get("http://bonuszbrigad.hu/egyenlegem")  # Opens the "egyenlegem" page
+                driver.get("http://bonuszbrigad.hu/egyenleg")  # Opens the "egyenlegem" page
                 time.sleep(2)
-                text = driver.find_element_by_css_selector('.my_credits').text  # Writes the contents of the "egyenlegem" page into a file
+                text = driver.find_element_by_css_selector('.details').text  # Writes the contents of the "egyenlegem" page into a file
                 # l = int(text[21])
                 # l =+ 1
                 # print(l)
@@ -79,7 +89,7 @@ while j <= cnt.count(','):
                 time.sleep(random.randint(5,60))
                 #time.sleep(2)
                 driver.close()
-#vdisplay.stop()
+vdisplay.stop()
                 # annyiadik trd[X] amennyi az első szám +1
                 # 200 forintnál td[3] 500 forintnál td[6]
                 # html/body/div[8]/div/div[2]/div/table[2]/tbody/tr[3]/td[3]
